@@ -48,8 +48,8 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
         SalesListAdapter adapter = new SalesListAdapter(ctx, ctx.getResources().getStringArray(R.array.sales_names));
         recyclerView.setAdapter(adapter);
-        recyclerView.setVerticalScrollBarEnabled(true);
-        recyclerView.setScrollbarFadingEnabled(true);
+        /*recyclerView.setVerticalScrollBarEnabled(true);
+        recyclerView.setScrollbarFadingEnabled(true);*/
 
         return v;
     }
