@@ -77,7 +77,11 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        if (fragmentManager.getBackStackEntryCount() == 0) {
+            finish();
+        } else {
+            presenter.onBackPressed();
+        }
     }
 
     @Override
