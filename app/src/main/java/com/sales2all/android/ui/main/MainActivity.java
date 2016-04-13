@@ -15,34 +15,39 @@ import com.sales2all.android.mvp.components.DaggerIMainActivityComponent;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
 import com.sales2all.android.mvp.components.ISales2AllAppComponent;
 import com.sales2all.android.mvp.modules.MainActivityModule;
-import com.sales2all.android.presenter.main.MainActivityPresenterImpl;
+import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.ui.BaseActivity;
+import com.sales2all.android.ui.saleslist.SalesListFragment;
 
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements IMainActivityView, IHasComponent<IMainActivityComponent> {
 
     @Inject
-    MainActivityPresenterImpl presenter;
+    IMainActivityPresenter presenter;
 
     private IMainActivityComponent mainActivityComponent;
     private FragmentManager fragmentManager;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fragmentManager = getFragmentManager();
 
-        MainActivityFragment mainActivityFragment = new MainActivityFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, mainActivityFragment).commit();
+        SalesListFragment salesListFragment = new SalesListFragment();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, salesListFragment).commit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,9 +65,6 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -71,6 +73,11 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
     }
 
     @Override

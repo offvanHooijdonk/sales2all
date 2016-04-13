@@ -1,7 +1,9 @@
 package com.sales2all.android.mvp.modules;
 
+import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.main.MainActivityPresenterImpl;
-import com.sales2all.android.presenter.main.MainFragmentPresenterImpl;
+import com.sales2all.android.presenter.saleslist.ISaleListPresenter;
+import com.sales2all.android.presenter.saleslist.SalesListPresenterImpl;
 import com.sales2all.android.ui.main.IMainActivityView;
 
 import dagger.Module;
@@ -25,12 +27,12 @@ public class MainActivityModule {
     }
 
     @Provides
-    public MainActivityPresenterImpl provideMainActivityPresenter() {
+    public IMainActivityPresenter provideMainActivityPresenter() {
         return new MainActivityPresenterImpl(view);
     }
 
     @Provides
-    public MainFragmentPresenterImpl provideMainFragmentPresenter() {
-        return new MainFragmentPresenterImpl();
+    public ISaleListPresenter provideSalesListPresenter() {
+        return new SalesListPresenterImpl();
     }
 }

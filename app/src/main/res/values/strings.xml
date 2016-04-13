@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">Sales2All</string>
     <string name="action_settings">Settings</string>
+
+    <string name="hello">This is a fragment text</string>
+
+    <array name="sales_names">
+        <item>Awesome black hat</item>
+        <item>Little green bag</item>
+        <item>A very very long name for a cute stuff who cares what is that</item>
+        <item>6-pence coin</item>
+        <item>Tarantino\'s sign</item>
+        <item>A new item 1</item>
+        <item>Test sale go buy it</item>
+        <item>Glass dildo</item>
+        <item>Mohamad portrait true</item>
+        <item>A bottle of expensive water</item>
+        <item>Sakhara sand</item>
+        <item>Final item</item>
+    </array>
 </resources>

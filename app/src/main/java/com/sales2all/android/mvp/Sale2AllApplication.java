@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.sales2all.android.mvp.components.DaggerISales2AllAppComponent;
 import com.sales2all.android.mvp.components.ISales2AllAppComponent;
+import com.sales2all.android.mvp.modules.Sales2AllAppModule;
 
 /**
  * Created by Yahor_Fralou on 4/12/2016.
@@ -28,7 +29,7 @@ public class Sale2AllApplication extends Application {
     }
 
     private void buildGraphAndInject() {
-        appComponent = DaggerISales2AllAppComponent.builder()./*sales2AllAppModule(new Sales2AllAppModule(this)).*/build();
+        appComponent = DaggerISales2AllAppComponent.builder().sales2AllAppModule(new Sales2AllAppModule(this)).build();
         appComponent.inject(this);
     }
 }

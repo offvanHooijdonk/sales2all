@@ -3,7 +3,7 @@ package com.sales2all.android.mvp.components;
 import com.sales2all.android.mvp.ActivityScope;
 import com.sales2all.android.mvp.modules.MainActivityModule;
 import com.sales2all.android.ui.main.MainActivity;
-import com.sales2all.android.ui.main.MainActivityFragment;
+import com.sales2all.android.ui.saleslist.SalesListFragment;
 
 import dagger.Component;
 
@@ -17,5 +17,5 @@ import dagger.Component;
 )
 public interface IMainActivityComponent {
     void inject(MainActivity activity);
-    void inject(MainActivityFragment fragment);
+    void inject(SalesListFragment fragment);
 }
