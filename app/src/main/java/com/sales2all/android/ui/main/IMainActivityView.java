@@ -5,4 +5,8 @@ package com.sales2all.android.ui.main;
  */
 public interface IMainActivityView {
     void popFragmentFromStack();
+    boolean isStackEmpty();
+    void exitApp();
+    void displayFilterView();
+    void applyFilter();
 }

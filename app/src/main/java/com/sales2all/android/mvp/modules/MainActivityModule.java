@@ -3,6 +3,8 @@ package com.sales2all.android.mvp.modules;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.main.MainActivityPresenterImpl;
 import com.sales2all.android.presenter.saleslist.ISaleListPresenter;
+import com.sales2all.android.presenter.saleslist.ISalesFilterPresenter;
+import com.sales2all.android.presenter.saleslist.SalesFilterPresenterImpl;
 import com.sales2all.android.presenter.saleslist.SalesListPresenterImpl;
 import com.sales2all.android.ui.main.IMainActivityView;
 
@@ -34,5 +36,10 @@ public class MainActivityModule {
     @Provides
     public ISaleListPresenter provideSalesListPresenter() {
         return new SalesListPresenterImpl();
+    }
+
+    @Provides
+    public ISalesFilterPresenter provideSalesFilterPresenter() {
+        return new SalesFilterPresenterImpl();
     }
 }

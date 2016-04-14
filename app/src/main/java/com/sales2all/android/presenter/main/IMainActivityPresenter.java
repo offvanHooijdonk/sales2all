@@ -5,4 +5,6 @@ package com.sales2all.android.presenter.main;
  */
 public interface IMainActivityPresenter {
     void onBackPressed();
+    void onFilterCalled();
+    void applyFilter();
 }

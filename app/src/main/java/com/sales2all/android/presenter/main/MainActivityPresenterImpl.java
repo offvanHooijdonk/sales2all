@@ -18,6 +18,20 @@ public class MainActivityPresenterImpl implements IMainActivityPresenter {
 
     @Override
     public void onBackPressed() {
-        view.popFragmentFromStack();
+        if (view.isStackEmpty()) {
+            view.exitApp();
+        } else {
+            view.popFragmentFromStack();
+        }
+    }
+
+    @Override
+    public void onFilterCalled() {
+        view.displayFilterView();
+    }
+
+    @Override
+    public void applyFilter() {
+        view.applyFilter();
     }
 }
