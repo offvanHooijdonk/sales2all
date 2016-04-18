@@ -26,6 +26,11 @@ public class MainActivityPresenterImpl implements IMainActivityPresenter {
     }
 
     @Override
+    public void collapseFilter() {
+        view.collapseFilterView();
+    }
+
+    @Override
     public void onFilterCalled() {
         view.displayFilterView();
     }

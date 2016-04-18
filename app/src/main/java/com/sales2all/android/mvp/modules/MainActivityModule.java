@@ -7,6 +7,7 @@ import com.sales2all.android.presenter.saleslist.ISalesFilterPresenter;
 import com.sales2all.android.presenter.saleslist.SalesFilterPresenterImpl;
 import com.sales2all.android.presenter.saleslist.SalesListPresenterImpl;
 import com.sales2all.android.ui.main.IMainActivityView;
+import com.sales2all.android.ui.saleslist.ISalesFilterView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,6 +19,7 @@ import dagger.Provides;
 public class MainActivityModule {
 
     private IMainActivityView view;
+    private ISalesFilterView salesFilterView;
 
     public MainActivityModule(IMainActivityView view) {
         this.view = view;
@@ -27,6 +29,7 @@ public class MainActivityModule {
     public IMainActivityView provideView() {
         return view;
     }
+
 
     @Provides
     public IMainActivityPresenter provideMainActivityPresenter() {

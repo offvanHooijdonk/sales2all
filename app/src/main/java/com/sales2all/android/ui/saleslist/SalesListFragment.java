@@ -1,5 +1,6 @@
 package com.sales2all.android.ui.saleslist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,8 +12,10 @@ import android.view.ViewGroup;
 
 import com.sales2all.android.R;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
+import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.saleslist.ISaleListPresenter;
 import com.sales2all.android.ui.BaseFragment;
+import com.sales2all.android.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -25,6 +28,9 @@ import butterknife.ButterKnife;
 public class SalesListFragment extends BaseFragment implements ISalesListView {
     @Inject
     ISaleListPresenter presenter;
+
+    @Inject
+    IMainActivityPresenter mainActivityPresenter;
 
     @Bind(R.id.listSales)
     RecyclerView recyclerView;
@@ -51,6 +57,20 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
         SalesListAdapter adapter = new SalesListAdapter(ctx, ctx.getResources().getStringArray(R.array.sales_names));
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    Activity a = SalesListFragment.this.getActivity();
+                    if (a instanceof MainActivity) {
+                        //((MainActivity) a).hideFilterFragment();
+                        mainActivityPresenter.collapseFilter();
+                    }
+                }
+            }
+        });
 
         return v;
     }

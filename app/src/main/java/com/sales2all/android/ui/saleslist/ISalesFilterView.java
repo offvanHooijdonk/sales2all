@@ -5,4 +5,5 @@ package com.sales2all.android.ui.saleslist;
  */
 public interface ISalesFilterView {
     void collapseFilter();
+    void expandFilter();
 }

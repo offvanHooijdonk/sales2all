@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import com.sales2all.android.R;
 import com.sales2all.android.helper.AnimationHelper;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
+import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.saleslist.ISalesFilterPresenter;
 import com.sales2all.android.ui.BaseFragment;
 
@@ -30,6 +31,8 @@ import butterknife.OnClick;
 public class SalesFilterFragment extends BaseFragment implements ISalesFilterView {
     @Inject
     ISalesFilterPresenter presenter;
+    @Inject
+    IMainActivityPresenter mainActivityPresenter;
 
     private Context ctx;
 
@@ -56,6 +59,14 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
         this.getComponent(IMainActivityComponent.class).inject(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.init(this);
+
+        presenter.expandFilter();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,42 +75,36 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
         if (v == null) {
             v = inflater.inflate(R.layout.fragment_sales_list_filter, container, false);
         }
+
         ButterKnife.bind(this, v);
         final View vFinal = v;
 
         v.setVisibility(View.INVISIBLE);
-
-        v.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View v) {
-                // TODO use presenter for that
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        AnimationHelper.Circle.revealViewWithFAB(vFinal, viewToCircleOn, new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                AnimationHelper.Fade.fade(layoutContainer, true);
-                            }
-                        });
-                    }
-                }, 50);
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-
-            }
-        });
 
         return v;
     }
 
     @OnClick(R.id.btnApply)
     public void onFilterApply() {
-        // TODO use presenter for that
-        collapseFilter();
+        presenter.collapseFilter();
+    }
+
+    @Override
+    public void expandFilter() {
+        final View v = getView();
+        assert v != null;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AnimationHelper.Circle.revealViewWithFAB(v, viewToCircleOn, new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        AnimationHelper.Fade.fade(layoutContainer, true);
+                    }
+                });
+            }
+        }, 50);
     }
 
     @Override
@@ -112,7 +117,8 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                getActivity().getFragmentManager().popBackStack();
+                mainActivityPresenter.onBackPressed();
+                //getActivity().getFragmentManager().popBackStackForce();
             }
         });
     }

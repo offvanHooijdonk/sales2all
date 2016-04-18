@@ -37,9 +37,12 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     private IMainActivityComponent mainActivityComponent;
     private FragmentManager fragmentManager;
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.container_filter) FrameLayout containerFilter;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.container_filter)
+    FrameLayout containerFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     }
 
     @OnClick(R.id.fab)
-    public void onFABClicked(){
+    public void onFABClicked() {
         presenter.onFilterCalled();
     }
 
@@ -100,11 +103,19 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
     @Override
     public void popFragmentFromStack() {
-        Fragment frFilter =  fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
-        if (frFilter != null) {
+        Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
+        if (frFilter != null && frFilter.isVisible()) {
             ((ISalesFilterView) frFilter).collapseFilter();
         } else {
             fragmentManager.popBackStack();
+        }
+    }
+
+    @Override
+    public void collapseFilterView() {
+        Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
+        if (frFilter != null) {
+            ((ISalesFilterView) frFilter).collapseFilter();
         }
     }
 
