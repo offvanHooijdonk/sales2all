@@ -12,11 +12,4 @@ public class SalesFilterPresenterImpl implements ISalesFilterPresenter {
     @Inject
     ISalesFilterView view;
 
-    @Inject
-    IMainActivityPresenter mainActivityPresenter;
-
-    @Override
-    public void applyFilter() {
-        mainActivityPresenter.applyFilter();
-    }
 }

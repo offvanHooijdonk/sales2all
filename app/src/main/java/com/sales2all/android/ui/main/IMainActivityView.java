@@ -8,5 +8,4 @@ public interface IMainActivityView {
     boolean isStackEmpty();
     void exitApp();
     void displayFilterView();
-    void applyFilter();
 }

@@ -117,16 +117,11 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     @Override
     public void displayFilterView() {
         //fab.hide();
-        SalesFilterFragment fr = new SalesFilterFragment();
+        SalesFilterFragment fr = new SalesFilterFragment(fab);
         fragmentManager.beginTransaction().replace(R.id.container_filter, fr, FRAG_TAG_SALES_FILTER)
                 .addToBackStack(FRAG_TAG_SALES_FILTER).commit();
 
         //revealView(fr.getView());
-    }
-
-    @Override
-    public void applyFilter() {
-        AnimationHelper.FAB.hideViewWithFAB(containerFilter, fab);
     }
 
     private boolean isFABToBeDisplayed() {
@@ -151,7 +146,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
             }
         }
 
-        Fragment frFilter =  fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
+        /*Fragment frFilter =  fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
         if (frFilter != null && frFilter.isVisible()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -161,7 +156,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
             }, 50);
         } else {
             //containerFilter.setVisibility(View.INVISIBLE);
-        }
+        }*/
     }
 
 }

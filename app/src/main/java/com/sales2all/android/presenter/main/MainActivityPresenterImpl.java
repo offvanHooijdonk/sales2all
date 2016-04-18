@@ -30,8 +30,4 @@ public class MainActivityPresenterImpl implements IMainActivityPresenter {
         view.displayFilterView();
     }
 
-    @Override
-    public void applyFilter() {
-        view.applyFilter();
-    }
 }
