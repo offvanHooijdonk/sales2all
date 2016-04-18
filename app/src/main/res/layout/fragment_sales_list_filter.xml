@@ -14,8 +14,8 @@
             android:id="@+id/layoutContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:theme="@style/AppTheme.LightText"
-            android:visibility="invisible">
+            android:theme="@style/AppTheme.FilterBox"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/textFilter"
@@ -25,13 +25,14 @@
                 android:text="Filter"/>
 
 
-            <EditText
-                android:id="@+id/editName"
+            <CheckBox
+                android:id="@+id/chbName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textFilter"
                 android:layout_toStartOf="@+id/btnApply"
-                android:hint="Name"
+                android:checked="false"
+                android:hint="A Check Box to Filter Something"
                 android:maxLines="1"/>
 
             <ImageButton
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/editName"
+                android:layout_below="@id/chbName"
                 android:layout_marginBottom="@dimen/filter_button_margin"
                 android:layout_marginEnd="@dimen/filter_button_margin"
                 android:layout_marginStart="@dimen/filter_button_margin"
