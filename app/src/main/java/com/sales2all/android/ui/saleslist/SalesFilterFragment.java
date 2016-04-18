@@ -1,7 +1,10 @@
 package com.sales2all.android.ui.saleslist;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
@@ -14,7 +17,6 @@ import com.sales2all.android.helper.AnimationHelper;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
 import com.sales2all.android.presenter.saleslist.ISalesFilterPresenter;
 import com.sales2all.android.ui.BaseFragment;
-import com.sales2all.android.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -34,16 +36,17 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
     @Bind(R.id.btnApply)
     ImageButton btnApply;
 
-    private FloatingActionButton fab;
+    @Bind(R.id.layoutContainer)
+    ViewGroup layoutContainer;
+
+    private FloatingActionButton viewToCircleOn;
 
     public SalesFilterFragment() {
         super();
     }
 
-    public SalesFilterFragment(FloatingActionButton fab) {
-        super();
-
-        this.fab = fab;
+    public void setViewToCircleOn(FloatingActionButton viewToCircleOn) {
+        this.viewToCircleOn = viewToCircleOn;
     }
 
     @Override
@@ -62,13 +65,26 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
             v = inflater.inflate(R.layout.fragment_sales_list_filter, container, false);
         }
         ButterKnife.bind(this, v);
+        final View vFinal = v;
 
         v.setVisibility(View.INVISIBLE);
 
         v.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                AnimationHelper.FAB.revealViewWithFAB(v, fab);
+                // TODO use presenter for that
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AnimationHelper.Circle.revealViewWithFAB(vFinal, viewToCircleOn, new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                AnimationHelper.Fade.fade(layoutContainer, true);
+                            }
+                        });
+                    }
+                }, 50);
             }
 
             @Override
@@ -82,7 +98,23 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
 
     @OnClick(R.id.btnApply)
     public void onFilterApply() {
-        getActivity().getFragmentManager().popBackStack(MainActivity.FRAG_TAG_SALES_FILTER, 0);
+        // TODO use presenter for that
+        collapseFilter();
+    }
+
+    @Override
+    public void collapseFilter() {
+        // Assume if this fragment is shown - it is on top
+        assert getView() != null;
+
+        AnimationHelper.Fade.fade(layoutContainer, false);
+        AnimationHelper.Circle.hideViewWithFAB(getView(), viewToCircleOn, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                getActivity().getFragmentManager().popBackStack();
+            }
+        });
     }
 
     @Override
