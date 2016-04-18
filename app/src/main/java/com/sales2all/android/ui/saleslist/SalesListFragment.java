@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,7 +55,8 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
         }
         ButterKnife.bind(this, v);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
+        recyclerView.setLayoutManager(new GridLayoutManager(ctx, 1));
         SalesListAdapter adapter = new SalesListAdapter(ctx, ctx.getResources().getStringArray(R.array.sales_names));
         recyclerView.setAdapter(adapter);
 
