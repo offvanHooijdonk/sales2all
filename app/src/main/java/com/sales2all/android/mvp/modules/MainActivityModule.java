@@ -3,11 +3,11 @@ package com.sales2all.android.mvp.modules;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.main.MainActivityPresenterImpl;
 import com.sales2all.android.presenter.saleslist.ISaleListPresenter;
-import com.sales2all.android.presenter.saleslist.ISalesFilterPresenter;
-import com.sales2all.android.presenter.saleslist.SalesFilterPresenterImpl;
+import com.sales2all.android.presenter.salesfilter.ISalesFilterPresenter;
+import com.sales2all.android.presenter.salesfilter.SalesFilterPresenterImpl;
 import com.sales2all.android.presenter.saleslist.SalesListPresenterImpl;
 import com.sales2all.android.ui.main.IMainActivityView;
-import com.sales2all.android.ui.saleslist.ISalesFilterView;
+import com.sales2all.android.ui.salesfilter.ISalesFilterView;
 
 import dagger.Module;
 import dagger.Provides;

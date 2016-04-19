@@ -1,6 +1,6 @@
-package com.sales2all.android.presenter.saleslist;
+package com.sales2all.android.presenter.salesfilter;
 
-import com.sales2all.android.ui.saleslist.ISalesFilterView;
+import com.sales2all.android.ui.salesfilter.ISalesFilterView;
 
 import javax.inject.Inject;
 

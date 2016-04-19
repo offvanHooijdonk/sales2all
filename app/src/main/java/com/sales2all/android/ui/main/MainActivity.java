@@ -2,11 +2,14 @@ package com.sales2all.android.ui.main;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.sales2all.android.R;
@@ -17,9 +20,10 @@ import com.sales2all.android.mvp.components.ISales2AllAppComponent;
 import com.sales2all.android.mvp.modules.MainActivityModule;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.ui.BaseActivity;
-import com.sales2all.android.ui.saleslist.ISalesFilterView;
-import com.sales2all.android.ui.saleslist.SalesFilterFragment;
+import com.sales2all.android.ui.salesfilter.ISalesFilterView;
+import com.sales2all.android.ui.salesfilter.SalesFilterFragment;
 import com.sales2all.android.ui.saleslist.SalesListFragment;
+import com.sales2all.android.ui.saleview.SaleViewActivity;
 
 import javax.inject.Inject;
 
@@ -57,6 +61,13 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
         fragmentManager.beginTransaction().replace(R.id.fragment_container, new SalesListFragment(), FRAG_TAG_SALES_LIST).commit();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        fab.show();
     }
 
     @Override
@@ -114,8 +125,28 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     @Override
     public void collapseFilterView() {
         Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
-        if (frFilter != null) {
+        if (frFilter != null && frFilter.isVisible()) {
             ((ISalesFilterView) frFilter).collapseFilter();
+        }
+    }
+
+    @Override
+    public void onSaleItemSelected(int position, final View transitionView) {
+        Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
+        if (frFilter != null && frFilter.isVisible()) {
+            ((ISalesFilterView) frFilter).collapseFilter();
+        } else {
+            fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(FloatingActionButton fab) {
+                    super.onHidden(fab);
+                    Intent intent = new Intent(MainActivity.this, SaleViewActivity.class);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            MainActivity.this, transitionView, MainActivity.this.getString(R.string.transition_sale_main_photo));
+                    startActivity(intent, options.toBundle());
+                }
+            });
+
         }
     }
 

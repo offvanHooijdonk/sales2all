@@ -1,5 +1,7 @@
 package com.sales2all.android.presenter.main;
 
+import android.view.View;
+
 import com.sales2all.android.ui.main.IMainActivityView;
 
 import javax.inject.Inject;
@@ -28,6 +30,11 @@ public class MainActivityPresenterImpl implements IMainActivityPresenter {
     @Override
     public void collapseFilter() {
         view.collapseFilterView();
+    }
+
+    @Override
+    public void onSaleItemSelected(int position, View transitionView) {
+        view.onSaleItemSelected(position, transitionView);
     }
 
     @Override

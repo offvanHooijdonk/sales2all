@@ -3,7 +3,7 @@ package com.sales2all.android.mvp.components;
 import com.sales2all.android.mvp.ActivityScope;
 import com.sales2all.android.mvp.modules.MainActivityModule;
 import com.sales2all.android.ui.main.MainActivity;
-import com.sales2all.android.ui.saleslist.SalesFilterFragment;
+import com.sales2all.android.ui.salesfilter.SalesFilterFragment;
 import com.sales2all.android.ui.saleslist.SalesListFragment;
 
 import dagger.Component;

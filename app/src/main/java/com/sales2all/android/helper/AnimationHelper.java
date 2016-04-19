@@ -15,10 +15,10 @@ import android.view.animation.Animation;
  * Created by Yahor_Fralou on 4/14/2016 18:30.
  */
 public class AnimationHelper {
-    public static final int DELAY_CIRCULAR_IN = 300;
+    public static final int DELAY_CIRCULAR_IN = 250;
     public static final int DELAY_CIRCULAR_OUT = 250;
 
-    public static final int DELAY_FADE_IN = 150;
+    public static final int DELAY_FADE_IN = 100;
 
     public static class Circle {
         /**
@@ -62,10 +62,6 @@ public class AnimationHelper {
             Animator anim = ViewAnimationUtils.createCircularReveal(v, cx, cy, initialRadius, viewCircleOn.getWidth()/2);
             anim.setDuration(DELAY_CIRCULAR_OUT);
 
-            if (listener != null) {
-                anim.addListener(listener);
-            }
-
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -73,6 +69,10 @@ public class AnimationHelper {
                     v.setVisibility(View.INVISIBLE);
                 }
             });
+
+            if (listener != null) {
+                anim.addListener(listener);
+            }
 
             anim.start();
             if (viewCircleOn instanceof FloatingActionButton) {

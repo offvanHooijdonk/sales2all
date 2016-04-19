@@ -1,4 +1,4 @@
-package com.sales2all.android.ui.saleslist;
+package com.sales2all.android.ui.salesfilter;
 
 /**
  * Created by Yahor_Fralou on 4/14/2016 12:15.

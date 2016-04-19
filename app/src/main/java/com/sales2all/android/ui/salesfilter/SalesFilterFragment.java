@@ -1,4 +1,4 @@
-package com.sales2all.android.ui.saleslist;
+package com.sales2all.android.ui.salesfilter;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,7 +16,7 @@ import com.sales2all.android.R;
 import com.sales2all.android.helper.AnimationHelper;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
-import com.sales2all.android.presenter.saleslist.ISalesFilterPresenter;
+import com.sales2all.android.presenter.salesfilter.ISalesFilterPresenter;
 import com.sales2all.android.ui.BaseFragment;
 
 import javax.inject.Inject;
@@ -77,7 +77,6 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
         }
 
         ButterKnife.bind(this, v);
-        final View vFinal = v;
 
         v.setVisibility(View.INVISIBLE);
 

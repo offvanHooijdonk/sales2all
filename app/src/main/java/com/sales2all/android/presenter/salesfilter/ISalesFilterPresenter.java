@@ -1,6 +1,6 @@
-package com.sales2all.android.presenter.saleslist;
+package com.sales2all.android.presenter.salesfilter;
 
-import com.sales2all.android.ui.saleslist.ISalesFilterView;
+import com.sales2all.android.ui.salesfilter.ISalesFilterView;
 
 /**
  * Created by Yahor_Fralou on 4/14/2016 12:16.

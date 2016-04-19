@@ -8,4 +8,5 @@
     <dimen name="filter_button_padding">8dp</dimen>
     <dimen name="card_outer_padding">4dp</dimen>
     <dimen name="card_title_padding_top">8dp</dimen>
+    <dimen name="discount_circle_diameter">64dp</dimen>
 </resources>

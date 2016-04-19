@@ -1,5 +1,7 @@
 package com.sales2all.android.presenter.saleslist;
 
+import android.view.View;
+
 import com.sales2all.android.ui.saleslist.ISalesListView;
 
 import javax.inject.Inject;
@@ -11,4 +13,14 @@ public class SalesListPresenterImpl implements ISaleListPresenter {
 
     @Inject
     ISalesListView view;
+
+    @Override
+    public void onSaleItemClicked(int position, View transitionView) {
+        view.startSaleView(position, transitionView);
+    }
+
+    @Override
+    public void init(ISalesListView view) {
+        this.view = view;
+    }
 }

@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +26,9 @@ import butterknife.ButterKnife;
 /**
  * Created by Yahor_Fralou on 4/13/2016 15:03.
  */
-public class SalesListFragment extends BaseFragment implements ISalesListView {
+public class SalesListFragment extends BaseFragment implements ISalesListView, SalesListAdapter.OnSaleItemClickedListener {
+    private static final int SPAN_MIN_SIZE = 240;
+
     @Inject
     ISaleListPresenter presenter;
 
@@ -38,11 +40,22 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
 
     private Context ctx;
 
+    public void addItemPickedListener() {
+
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         this.getComponent(IMainActivityComponent.class).inject(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        presenter.init(this);
     }
 
     @Nullable
@@ -55,9 +68,11 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
         }
         ButterKnife.bind(this, v);
 
-        //recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
-        recyclerView.setLayoutManager(new GridLayoutManager(ctx, 1));
-        SalesListAdapter adapter = new SalesListAdapter(ctx, ctx.getResources().getStringArray(R.array.sales_names));
+        //GridLayoutManager layoutManager = new GridLayoutManager(ctx, getGridSpanNumber());
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getGridSpanNumber(), StaggeredGridLayoutManager.VERTICAL);
+
+        recyclerView.setLayoutManager(layoutManager);
+        SalesListAdapter adapter = new SalesListAdapter(ctx, ctx.getResources().getStringArray(R.array.sales_names), this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -67,14 +82,20 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     Activity a = SalesListFragment.this.getActivity();
                     if (a instanceof MainActivity) {
-                        //((MainActivity) a).hideFilterFragment();
                         mainActivityPresenter.collapseFilter();
                     }
                 }
             }
         });
 
+
+
         return v;
+    }
+
+    @Override
+    public void startSaleView(int position, View transitionView) {
+        mainActivityPresenter.onSaleItemSelected(position, transitionView);
     }
 
     @Override
@@ -82,5 +103,19 @@ public class SalesListFragment extends BaseFragment implements ISalesListView {
         super.onDestroyView();
 
         ButterKnife.unbind(this);
+    }
+
+    private int getGridSpanNumber() {
+        DisplayMetrics displayMetrics = ctx.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        float spanNumber = dpWidth / SPAN_MIN_SIZE;
+
+        return (int) spanNumber;
+    }
+
+    @Override
+    public void onSaleItemClicked(int position, View transitionView) {
+        presenter.onSaleItemClicked(position, transitionView);
     }
 }

@@ -1,6 +1,7 @@
 package com.sales2all.android.ui.saleslist;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sales2all.android.R;
+import com.sales2all.android.ui.views.AspectRatioImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,11 +20,12 @@ import butterknife.ButterKnife;
 public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.ViewHolder> {
     private String[] items;
     private Context ctx;
+    private OnSaleItemClickedListener listener;
 
-    public SalesListAdapter(Context context, String[] items) {
+    public SalesListAdapter(Context context, String[] items, OnSaleItemClickedListener l) {
         this.ctx = context;
         this.items = items;
-
+        this.listener = l;
     }
 
     @Override
@@ -32,8 +35,24 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder vh, int position) {
+    public void onBindViewHolder(ViewHolder vh, final int position) {
         vh.textName.setText(items[position]);
+
+        int resImage = ((position * position * 5) % 6) > 2 ? R.drawable.sample_photo : R.drawable.sample_photo_coins;
+        Drawable dr = ctx.getDrawable(resImage);
+        assert dr != null;
+        vh.imagePhoto.setImageDrawable(dr);
+        vh.imagePhoto.setAspectRatio(((float) dr.getIntrinsicHeight()) / dr.getIntrinsicWidth());
+        final View transitionView = vh.imagePhoto;
+
+        vh.imagePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onSaleItemClicked(position, transitionView);
+                }
+            }
+        });
     }
 
     @Override
@@ -42,6 +61,8 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.imagePhoto)
+        AspectRatioImageView imagePhoto;
         @Bind(R.id.textDiscount)
         TextView textDiscount;
         @Bind(R.id.textName)
@@ -54,5 +75,9 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
 
             ButterKnife.bind(ViewHolder.this, v);
         }
+    }
+
+    public interface OnSaleItemClickedListener {
+        void onSaleItemClicked(int position, View transitionView);
     }
 }
