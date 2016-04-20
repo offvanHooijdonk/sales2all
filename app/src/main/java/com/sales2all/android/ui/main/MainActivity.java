@@ -4,15 +4,20 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
 import com.sales2all.android.R;
+import com.sales2all.android.helper.AnimationHelper;
+import com.sales2all.android.helper.DBHelper;
 import com.sales2all.android.mvp.IHasComponent;
 import com.sales2all.android.mvp.components.DaggerIMainActivityComponent;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
@@ -41,6 +46,8 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     private IMainActivityComponent mainActivityComponent;
     private FragmentManager fragmentManager;
 
+    @Bind(R.id.coordinator)
+    CoordinatorLayout coordinator;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.fab)
@@ -82,6 +89,10 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.recreate_db) {
+            DBHelper.initData(this);
+            Snackbar.make(coordinator, "Database re-initiated", Snackbar.LENGTH_LONG).show();
             return true;
         }
 
@@ -131,23 +142,35 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     }
 
     @Override
-    public void onSaleItemSelected(int position, final View transitionView) {
+    public void onSaleItemSelected(final int position, final View transitionView) {
         Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
         if (frFilter != null && frFilter.isVisible()) {
             ((ISalesFilterView) frFilter).collapseFilter();
         } else {
-            fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+            AnimationHelper.Fade.fade(fab, false, new Animation.AnimationListener() {
                 @Override
-                public void onHidden(FloatingActionButton fab) {
-                    super.onHidden(fab);
-                    Intent intent = new Intent(MainActivity.this, SaleViewActivity.class);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            MainActivity.this, transitionView, MainActivity.this.getString(R.string.transition_sale_main_photo));
-                    startActivity(intent, options.toBundle());
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    startSaleViewActivity(position, transitionView);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
                 }
             });
-
         }
+    }
+
+    public void startSaleViewActivity(int position, final View transitionView) {
+        Intent intent = new Intent(MainActivity.this, SaleViewActivity.class);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                MainActivity.this, transitionView, MainActivity.this.getString(R.string.transition_sale_main_photo));
+        startActivity(intent, options.toBundle());
     }
 
     @Override

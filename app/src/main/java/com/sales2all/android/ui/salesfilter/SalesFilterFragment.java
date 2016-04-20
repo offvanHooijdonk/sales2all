@@ -99,7 +99,7 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        AnimationHelper.Fade.fade(layoutContainer, true);
+                        AnimationHelper.Fade.fade(layoutContainer, true, null);
                     }
                 });
             }
@@ -111,7 +111,7 @@ public class SalesFilterFragment extends BaseFragment implements ISalesFilterVie
         // Assume if this fragment is shown - it is on top
         assert getView() != null;
 
-        AnimationHelper.Fade.fade(layoutContainer, false);
+        AnimationHelper.Fade.fade(layoutContainer, false, null);
         AnimationHelper.Circle.hideViewWithFAB(getView(), viewToCircleOn, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

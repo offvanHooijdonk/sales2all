@@ -94,7 +94,7 @@ public class AnimationHelper {
     }
 
     public static class Fade {
-        public static void fade(final View v, final boolean animateIn) {
+        public static void fade(final View v, final boolean animateIn, final Animation.AnimationListener listener) {
             float start = animateIn ? 0.0f : 1.0f ;
             float end = animateIn ? 1.0f : 0.0f ;;
             Animation anim = new AlphaAnimation(start, end);
@@ -111,6 +111,10 @@ public class AnimationHelper {
                         v.setVisibility(View.VISIBLE);
                     } else {
                         v.setVisibility(View.INVISIBLE);
+                    }
+
+                    if (listener != null) {
+                        listener.onAnimationEnd(animation);
                     }
                 }
 

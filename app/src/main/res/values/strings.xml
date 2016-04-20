@@ -4,6 +4,7 @@
 
     <string name="hello">This is a fragment text</string>
     <string name="transition_sale_main_photo">sale_main_photo</string>
+    <string name="init_data">Init Data</string>
 
     <array name="sales_names">
         <item>Awesome black hat</item>
