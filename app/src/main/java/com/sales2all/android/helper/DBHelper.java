@@ -6,6 +6,8 @@ import com.sales2all.android.R;
 import com.sales2all.android.model.SaleBean;
 import com.sales2all.android.model.SaleImageBean;
 
+import java.util.UUID;
+
 /**
  * Created by Yahor_Fralou on 4/20/2016 15:04.
  */
@@ -22,7 +24,7 @@ public class DBHelper {
     private static void addSale(int position, String name, int discount, float priceDiscount) {
         SaleBean sale = new SaleBean(name, discount, priceDiscount, Math.round(discount * priceDiscount) - 0.05f);
         sale.save();
-        String imageUri = ((position * position * 5) % 6) > 2 ? "sample_photo.jpg" : "sample_photo_coins.jpg";
+        String imageUri = UUID.randomUUID().toString() + ".jpg";//((position * position * 5) % 6) > 2 ? "sample_photo.jpg" : "sample_photo_coins.jpg";
         SaleImageBean saleImage = new SaleImageBean(sale.getId(), true, imageUri);
         saleImage.save();
     }

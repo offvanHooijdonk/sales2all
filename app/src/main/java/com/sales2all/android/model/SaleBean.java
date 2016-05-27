@@ -2,6 +2,7 @@ package com.sales2all.android.model;
 
 import com.orm.SugarRecord;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class SaleBean extends SugarRecord {
     private String name;
-    /*private List<SaleImageBean> images = new ArrayList<>();*/
+    private List<SaleImageBean> images = new ArrayList<>();
     private int discount;
     private float priceDiscount;
     private float priceOrigin;
@@ -34,12 +35,12 @@ public class SaleBean extends SugarRecord {
     }
 
     public List<SaleImageBean> getImages() {
-        return SaleImageBean.find(SaleImageBean.class, "saleId = ?", new String[]{String.valueOf(this.getId())}, null, "primaryImage, uri", null);
+        return images = SaleImageBean.find(SaleImageBean.class, "saleId = ?", new String[]{String.valueOf(this.getId())}, null, "primaryImage desc, uri", null);
     }
 
-    /*public void setImages(List<SaleImageBean> images) {
+    public void setImages(List<SaleImageBean> images) {
         this.images = images;
-    }*/
+    }
 
     public int getDiscount() {
         return discount;
