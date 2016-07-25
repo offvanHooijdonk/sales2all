@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:src="@drawable/sample_photo"
         android:transitionName="@string/transition_sale_main_photo"
         app:aspectRatio="0.562"
         app:aspectRatioEnabled="true"/>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,7 +16,6 @@ import android.widget.FrameLayout;
 
 import com.sales2all.android.R;
 import com.sales2all.android.helper.AnimationHelper;
-import com.sales2all.android.helper.DBHelper;
 import com.sales2all.android.mvp.IHasComponent;
 import com.sales2all.android.mvp.components.DaggerIMainActivityComponent;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
@@ -89,10 +87,6 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.recreate_db) {
-            DBHelper.initData(this);
-            Snackbar.make(coordinator, "Database re-initiated", Snackbar.LENGTH_LONG).show();
             return true;
         }
 

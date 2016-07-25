@@ -9,9 +9,5 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/recreate_db"
-        android:orderInCategory="110"
-        android:title="@string/init_data"
-        app:showAsAction="never"/>
+
 </menu>

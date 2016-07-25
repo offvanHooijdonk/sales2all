@@ -15,8 +15,8 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/cardview_default_radius"
         app:cardElevation="@dimen/cardview_default_elevation"
-        app:cardUseCompatPadding="true"
-        app:cardPreventCornerOverlap="false">
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:id="@+id/layoutCard"
@@ -27,7 +27,6 @@
                 android:id="@+id/imagePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sample_photo"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:scaleType="fitStart"
@@ -38,11 +37,29 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/discount_shape"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="-10dp"
                 android:layout_marginTop="-14dp"
-                android:layout_marginStart="-10dp"/>
+                android:src="@drawable/discount_shape"/>
+
+            <ImageView
+                android:id="@+id/imageStub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_photo_camera_black_48dp"
+                android:tint="#ccc"/>
+
+            <ProgressBar
+                android:id="@+id/progressImageLoad"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imagePhoto"
+                android:layout_alignEnd="@id/imagePhoto"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/textDiscount"
@@ -58,9 +75,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/textDiscount"
                 android:layout_alignTop="@id/textDiscount"
                 android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/textDiscount"
                 android:text="%"
                 android:textColor="@color/discount50"
                 android:textSize="16sp"/>
@@ -69,9 +86,9 @@
                 android:id="@+id/textName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/imagePhoto"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/card_title_padding_top"
-                android:layout_below="@id/imagePhoto"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Name"

@@ -13,6 +13,9 @@ import java.util.UUID;
  */
 public class DBHelper {
     public static void initData(Context ctx) {
+        SaleImageBean.deleteAll(SaleImageBean.class);
+        SaleBean.deleteAll(SaleBean.class);
+
         String[] names = ctx.getResources().getStringArray(R.array.sales_names);
         int position = 0;
         for (String name : names) {
@@ -24,8 +27,11 @@ public class DBHelper {
     private static void addSale(int position, String name, int discount, float priceDiscount) {
         SaleBean sale = new SaleBean(name, discount, priceDiscount, Math.round(discount * priceDiscount) - 0.05f);
         sale.save();
-        String imageUri = UUID.randomUUID().toString() + ".jpg";//((position * position * 5) % 6) > 2 ? "sample_photo.jpg" : "sample_photo_coins.jpg";
+        String imageUri = UUID.randomUUID().toString() + ".jpg";
         SaleImageBean saleImage = new SaleImageBean(sale.getId(), true, imageUri);
         saleImage.save();
+
+        sale.getImages().add(saleImage);
+        sale.save();
     }
 }

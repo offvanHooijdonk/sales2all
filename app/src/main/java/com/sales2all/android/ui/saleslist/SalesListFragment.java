@@ -8,15 +8,23 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sales2all.android.R;
+import com.sales2all.android.helper.DBHelper;
+import com.sales2all.android.model.SaleBean;
 import com.sales2all.android.mvp.components.IMainActivityComponent;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.saleslist.ISaleListPresenter;
 import com.sales2all.android.ui.BaseFragment;
 import com.sales2all.android.ui.main.MainActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,6 +48,9 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
 
     private Context ctx;
 
+    private SalesListAdapter adapter;
+    private List<SaleBean> salesList;
+
     public void addItemPickedListener() {
 
     }
@@ -58,6 +69,13 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
         presenter.init(this);
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +90,10 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getGridSpanNumber(), StaggeredGridLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(layoutManager);
-        SalesListAdapter adapter = new SalesListAdapter(ctx, ctx.getResources().getStringArray(R.array.sales_names), this);
+
+        salesList = SaleBean.listAll(SaleBean.class);
+
+        adapter = new SalesListAdapter(ctx, salesList, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -117,5 +138,33 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
     @Override
     public void onSaleItemClicked(int position, View transitionView) {
         presenter.onSaleItemClicked(position, transitionView);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.recreate_db) {
+            DBHelper.initData(ctx);
+            Toast.makeText(ctx, "Database re-initiated", Toast.LENGTH_LONG).show();
+            // TODO uncomment and use MainActivity capability of showing Snackbar
+            //Snackbar.make(coordinator, "Database re-initiated", Snackbar.LENGTH_LONG).show();
+
+            salesList.clear();
+            adapter.notifyDataSetChanged();
+            salesList.addAll(SaleBean.listAll(SaleBean.class));
+            adapter.notifyDataSetChanged();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
