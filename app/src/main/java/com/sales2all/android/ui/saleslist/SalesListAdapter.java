@@ -48,7 +48,7 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder vh, final int position) {
         //String filePath = FSHelper.getPicturesPath(ctx) + items[position];
-        SaleBean saleBean = items.get(position);
+        final SaleBean saleBean = items.get(position);
         vh.textName.setText(saleBean.getName());
 
         int discountColor = ColorHelper.getColorForDiscount(saleBean.getDiscount());
@@ -65,7 +65,7 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onSaleItemClicked(position, transitionView);
+                    listener.onSaleItemClicked(position, saleBean.getId(), transitionView);
                 }
             }
         });
@@ -135,7 +135,7 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
     }
 
     public interface OnSaleItemClickedListener {
-        void onSaleItemClicked(int position, View transitionView);
+        void onSaleItemClicked(int position, Long itemId, View transitionView);
     }
 
 }

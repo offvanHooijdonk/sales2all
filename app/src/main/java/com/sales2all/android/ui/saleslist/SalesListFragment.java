@@ -109,8 +109,6 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
             }
         });
 
-
-
         return v;
     }
 
@@ -136,8 +134,8 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
     }
 
     @Override
-    public void onSaleItemClicked(int position, View transitionView) {
-        presenter.onSaleItemClicked(position, transitionView);
+    public void onSaleItemClicked(int position, Long saleId, View transitionView) {
+        presenter.onSaleItemClicked(position, saleId, transitionView);
     }
 
     @Override

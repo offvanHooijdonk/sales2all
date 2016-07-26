@@ -11,5 +11,5 @@ public interface IMainActivityView {
     void exitApp();
     void displayFilterView();
     void collapseFilterView();
-    void onSaleItemSelected(int position, View transitionView);
+    void onSaleItemSelected(int position, Long saleId, View transitionView);
 }

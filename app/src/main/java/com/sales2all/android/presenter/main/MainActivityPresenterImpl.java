@@ -33,8 +33,8 @@ public class MainActivityPresenterImpl implements IMainActivityPresenter {
     }
 
     @Override
-    public void onSaleItemSelected(int position, View transitionView) {
-        view.onSaleItemSelected(position, transitionView);
+    public void onSaleItemSelected(int position, Long saleId, View transitionView) {
+        view.onSaleItemSelected(position, saleId, transitionView);
     }
 
     @Override

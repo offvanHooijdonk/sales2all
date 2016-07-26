@@ -8,6 +8,6 @@ import android.view.View;
 public interface IMainActivityPresenter {
     void onBackPressed();
     void collapseFilter();
-    void onSaleItemSelected(int position, View transitionView);
+    void onSaleItemSelected(int position, Long saleId, View transitionView);
     void onFilterCalled();
 }

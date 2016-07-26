@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     }
 
     @Override
-    public void onSaleItemSelected(final int position, final View transitionView) {
+    public void onSaleItemSelected(final int position, final Long saleId, final View transitionView) {
         Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
         if (frFilter != null && frFilter.isVisible()) {
             ((ISalesFilterView) frFilter).collapseFilter();
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    startSaleViewActivity(position, transitionView);
+                    startSaleViewActivity(position, saleId, transitionView);
                 }
 
                 @Override
@@ -160,8 +160,10 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         }
     }
 
-    public void startSaleViewActivity(int position, final View transitionView) {
+    public void startSaleViewActivity(int position, Long saleId, final View transitionView) {
         Intent intent = new Intent(MainActivity.this, SaleViewActivity.class);
+        intent.putExtra(SaleViewActivity.EXTRA_SALE_ID, saleId);
+
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 MainActivity.this, transitionView, MainActivity.this.getString(R.string.transition_sale_main_photo));
         startActivity(intent, options.toBundle());

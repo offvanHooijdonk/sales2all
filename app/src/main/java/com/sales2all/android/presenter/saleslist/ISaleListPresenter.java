@@ -9,7 +9,7 @@ import com.sales2all.android.ui.saleslist.ISalesListView;
  */
 public interface ISaleListPresenter {
 
-    void onSaleItemClicked(int position, View transitionView);
+    void onSaleItemClicked(int position, Long saleId, View transitionView);
 
     void init(ISalesListView view);
 }
