@@ -5,6 +5,7 @@
     <string name="hello">This is a fragment text</string>
     <string name="transition_sale_main_photo">sale_main_photo</string>
     <string name="init_data">Init Data</string>
+    <string name="percent_sign">%</string>
 
     <array name="sales_names">
         <item>Awesome black hat</item>
@@ -19,5 +20,14 @@
         <item>A bottle of expensive water</item>
         <item>Sakhara sand</item>
         <item>Final item</item>
+    </array>
+
+    <array name="discount_colors">
+        <item>0|discount0</item>
+        <item>20|discount20</item>
+        <item>30|discount30</item>
+        <item>40|discount40</item>
+        <item>50|discount50</item>
+        <item>70|discount70</item>
     </array>
 </resources>

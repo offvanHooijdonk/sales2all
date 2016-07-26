@@ -27,8 +27,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.google.dagger:dagger:2.2'
     compile 'com.github.satyan:sugar:1.5'
-    apt 'com.google.dagger:dagger-compiler:2.2'
     provided 'javax.annotation:jsr250-api:1.0'
+
+    compile 'com.google.dagger:dagger:2.2'
+    apt 'com.google.dagger:dagger-compiler:2.2'
+
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
 }

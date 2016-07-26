@@ -73,12 +73,13 @@
                 android:textSize="32sp"/>
 
             <TextView
+                android:id="@+id/textPerCent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/textDiscount"
                 android:layout_marginTop="4dp"
                 android:layout_toEndOf="@id/textDiscount"
-                android:text="%"
+                android:text="@string/percent_sign"
                 android:textColor="@color/discount50"
                 android:textSize="16sp"/>
 

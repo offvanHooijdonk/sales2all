@@ -158,7 +158,7 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
             //Snackbar.make(coordinator, "Database re-initiated", Snackbar.LENGTH_LONG).show();
 
             salesList.clear();
-            adapter.notifyDataSetChanged();
+            //adapter.notifyDataSetChanged();
             salesList.addAll(SaleBean.listAll(SaleBean.class));
             adapter.notifyDataSetChanged();
 

@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.sales2all.android.R;
 import com.sales2all.android.data.provider.ImageProvider;
+import com.sales2all.android.helper.AnimationHelper;
+import com.sales2all.android.helper.ColorHelper;
+import com.sales2all.android.helper.FormatHelper;
 import com.sales2all.android.model.SaleBean;
 import com.sales2all.android.ui.views.AspectRatioImageView;
 
@@ -48,11 +51,14 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
         SaleBean saleBean = items.get(position);
         vh.textName.setText(saleBean.getName());
 
-        /*int resImage = ((position * position * 5) % 6) > 2 ? R.drawable.sample_photo : R.drawable.sample_photo_coins;
-        Drawable dr = ctx.getDrawable(resImage);
-        assert dr != null;
-        vh.imagePhoto.setImageDrawable(dr);
-        vh.imagePhoto.setAspectRatio(((float) dr.getIntrinsicHeight()) / dr.getIntrinsicWidth());*/
+        int discountColor = ColorHelper.getColorForDiscount(saleBean.getDiscount());
+
+        vh.textDiscount.setText(String.valueOf(saleBean.getDiscount()));
+        vh.textDiscount.setTextColor(discountColor);
+
+        vh.textPrice.setText(FormatHelper.formatPrice(saleBean.getPriceDiscount()));
+
+        vh.textPerCent.setTextColor(discountColor);
 
         final View transitionView = vh.imagePhoto;
         vh.imagePhoto.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +93,11 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
             if (dr != null) {
                 vh.imageStub.setVisibility(View.GONE);
 
+                vh.imagePhoto.setVisibility(View.INVISIBLE);
                 vh.imagePhoto.setImageDrawable(dr);
                 vh.imagePhoto.setAspectRatio(((float) dr.getIntrinsicHeight()) / dr.getIntrinsicWidth());
+
+                AnimationHelper.Fade.fade(vh.imagePhoto, true, null);
             }
 
             vh.progressImageLoad.setVisibility(View.GONE);
@@ -115,6 +124,8 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
         TextView textName;
         @Bind(R.id.textPrice)
         TextView textPrice;
+        @Bind(R.id.textPerCent)
+        TextView textPerCent;
 
         public ViewHolder(View v) {
             super(v);

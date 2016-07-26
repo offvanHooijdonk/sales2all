@@ -19,7 +19,7 @@ public class DBHelper {
         String[] names = ctx.getResources().getStringArray(R.array.sales_names);
         int position = 0;
         for (String name : names) {
-            addSale(position, name, Math.round((float) Math.random() * 40) + 10, Math.round((float) Math.random() * 200) + 10 - 0.05f);
+            addSale(position, name, Math.round((float) Math.random() * 70) + 10, Math.round((float) Math.random() * 200) + 10 - 0.05f);
             position++;
         }
     }

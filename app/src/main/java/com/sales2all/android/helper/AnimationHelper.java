@@ -94,9 +94,9 @@ public class AnimationHelper {
     }
 
     public static class Fade {
-        public static void fade(final View v, final boolean animateIn, final Animation.AnimationListener listener) {
+        public static void fade(@NonNull final View v, final boolean animateIn, @Nullable final Animation.AnimationListener listener) {
             float start = animateIn ? 0.0f : 1.0f ;
-            float end = animateIn ? 1.0f : 0.0f ;;
+            float end = animateIn ? 1.0f : 0.0f ;
             Animation anim = new AlphaAnimation(start, end);
             anim.setDuration(DELAY_FADE_IN);
             anim.setAnimationListener(new Animation.AnimationListener() {

@@ -2,15 +2,16 @@ package com.sales2all.android.data.loader;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Yahor_Fralou on 7/25/2016 16:23.
@@ -32,61 +33,22 @@ public class DownloadImageTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String fileSavePath = params[0];
-
-        InputStream input = null;
-        OutputStream output = null;
-        HttpURLConnection connection = null;
+        final String fileSavePath = params[0];
 
         int height = (Math.random() * 2) > 1 ? IMAGE_HEIGHT : IMAGE_HEIGHT_NARROW;
         String urlString = HOST_URL + IMAGE_WIDTH + "/" + height + "/technics";
+
+        FileDownloadService downloadService = ApiClient.getClient().create(FileDownloadService.class);
+        Call<ResponseBody> call = downloadService.downloadFile(urlString);
+        Response<ResponseBody> response;
         try {
-            URL url = new URL(urlString);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-
-            // expect HTTP 200 OK, so we don't mistakenly save error report
-            // instead of the file
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                Toast.makeText(ctx, "Response code" + connection.getResponseCode() + "returned!", Toast.LENGTH_LONG).show();
-                return null;
-            }
-
-            input = connection.getInputStream();
-            File f = new File(fileSavePath);
-            if (f.exists()) {
-                f.delete();
-            }
-            f.createNewFile();
-
-            output = new FileOutputStream(f);
-
-            byte data[] = new byte[BATCH_SIZE];
-            int count;
-            while ((count = input.read(data)) != -1) {
-                // allow canceling on exit
-                if (isCancelled()) {
-                    input.close();
-                    return null;
-                }
-                output.write(data, 0, count);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (output != null)
-                    output.close();
-                if (input != null)
-                    input.close();
-            } catch (IOException ignored) {
-            }
-
-            if (connection != null) {
-                connection.disconnect();
-            }
+            response = call.execute();
+        } catch (IOException e) {
+            //Toast.makeText(ctx, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            return null;
         }
 
+        saveToFile(fileSavePath, response.body().byteStream());
 
         return fileSavePath;
     }
@@ -96,6 +58,39 @@ public class DownloadImageTask extends AsyncTask<String, Void, String> {
         super.onPostExecute(filePath);
 
         listener.onCompleted(filePath);
+    }
+
+    private void saveToFile(String filePath, InputStream is) {
+        OutputStream output = null;
+
+        try {
+            File f = new File(filePath);
+            if (f.exists()) {
+                f.delete();
+            }
+            f.createNewFile();
+
+            output = new FileOutputStream(f);
+
+            byte data[] = new byte[BATCH_SIZE];
+            int count;
+            while ((count = is.read(data)) != -1) {
+                // allow canceling on exit
+                if (isCancelled()) {
+                    is.close();
+                }
+                output.write(data, 0, count);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (output != null) {
+                    output.close();
+                }
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     public interface DownloadListener {

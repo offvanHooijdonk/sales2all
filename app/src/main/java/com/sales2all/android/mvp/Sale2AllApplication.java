@@ -3,6 +3,7 @@ package com.sales2all.android.mvp;
 import android.content.Context;
 
 import com.orm.SugarContext;
+import com.sales2all.android.helper.ColorHelper;
 import com.sales2all.android.model.SaleBean;
 import com.sales2all.android.mvp.components.DaggerISales2AllAppComponent;
 import com.sales2all.android.mvp.components.ISales2AllAppComponent;
@@ -28,6 +29,9 @@ public class Sale2AllApplication extends /*Application*/com.orm.SugarApp {
         SugarContext.init(getApplicationContext());
 
         SaleBean.findById(SaleBean.class, 1L);
+
+        ColorHelper.initDiscountColors(getApplicationContext());
+
         buildGraphAndInject();
     }
 
