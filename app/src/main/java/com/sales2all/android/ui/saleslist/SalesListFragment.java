@@ -113,8 +113,8 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
     }
 
     @Override
-    public void startSaleView(int position, View transitionView) {
-        mainActivityPresenter.onSaleItemSelected(position, transitionView);
+    public void startSaleView(int position, Long saleId, View transitionView) {
+        mainActivityPresenter.onSaleItemSelected(position, saleId, transitionView);
     }
 
     @Override

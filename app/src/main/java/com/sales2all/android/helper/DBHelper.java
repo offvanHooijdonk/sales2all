@@ -27,8 +27,8 @@ public class DBHelper {
     private static void addSale(int position, String name, int discount, float priceDiscount) {
         SaleBean sale = new SaleBean(name, discount, priceDiscount, Math.round(discount * priceDiscount) - 0.05f);
         sale.save();
-        String imageUri = UUID.randomUUID().toString() + ".jpg";
-        SaleImageBean saleImage = new SaleImageBean(sale.getId(), true, imageUri);
+        String imageFileName = UUID.randomUUID().toString() + ".jpg";
+        SaleImageBean saleImage = new SaleImageBean(sale.getId(), true, imageFileName);
         saleImage.save();
 
         sale.getImages().add(saleImage);

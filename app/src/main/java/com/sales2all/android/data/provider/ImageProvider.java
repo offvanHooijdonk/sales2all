@@ -18,7 +18,7 @@ public class ImageProvider {
     public static void provideImageForSaleMain(Context ctx, SaleBean saleBean, @NonNull final ImageProvideListener listener) {
         if (!saleBean.getImages().isEmpty()) {
             // TODO need to change default image object
-            final String filePath = FSHelper.getPicturesPath(ctx) + saleBean.getImages().get(0).getUri();
+            final String filePath = FSHelper.getPicturesPath(ctx) + saleBean.getImages().get(0).getFileName();
             File file = new File(filePath);
             if (file.exists()) {
                 // For existing file just return the path

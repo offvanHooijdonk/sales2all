@@ -15,8 +15,8 @@ public class SalesListPresenterImpl implements ISaleListPresenter {
     ISalesListView view;
 
     @Override
-    public void onSaleItemClicked(int position, View transitionView) {
-        view.startSaleView(position, transitionView);
+    public void onSaleItemClicked(int position, Long saleId, View transitionView) {
+        view.startSaleView(position, saleId, transitionView);
     }
 
     @Override

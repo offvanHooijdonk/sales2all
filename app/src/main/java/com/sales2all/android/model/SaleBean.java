@@ -36,7 +36,7 @@ public class SaleBean extends SugarRecord {
 
     public List<SaleImageBean> getImages() {
         if (images.isEmpty()) {
-            return images = SaleImageBean.find(SaleImageBean.class, "sale_Id = ?", new String[]{String.valueOf(this.getId())}, null, "primary_Image desc, uri", null);
+            return images = SaleImageBean.find(SaleImageBean.class, "sale_Id = ?", new String[]{String.valueOf(this.getId())}, null, "primary_Image desc, file_name", null);
         } else {
             return images;
         }

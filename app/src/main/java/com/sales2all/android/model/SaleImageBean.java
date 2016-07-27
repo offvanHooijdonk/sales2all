@@ -8,7 +8,7 @@ import com.orm.SugarRecord;
 public class SaleImageBean extends SugarRecord {
     private long saleId;
     private boolean primaryImage;
-    private String uri;
+    private String fileName;
 
     public SaleImageBean() {
     }
@@ -16,7 +16,7 @@ public class SaleImageBean extends SugarRecord {
     public SaleImageBean(long saleId, boolean primaryImage, String uri) {
         this.saleId = saleId;
         this.primaryImage = primaryImage;
-        this.uri = uri;
+        this.fileName = uri;
     }
 
     public long getSaleId() {
@@ -35,11 +35,11 @@ public class SaleImageBean extends SugarRecord {
         this.primaryImage = primaryImage;
     }
 
-    public String getUri() {
-        return uri;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

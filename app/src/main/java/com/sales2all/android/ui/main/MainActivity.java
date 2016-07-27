@@ -23,6 +23,7 @@ import com.sales2all.android.mvp.components.ISales2AllAppComponent;
 import com.sales2all.android.mvp.modules.MainActivityModule;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.ui.BaseActivity;
+import com.sales2all.android.ui.preferences.PreferenceActivity;
 import com.sales2all.android.ui.salesfilter.ISalesFilterView;
 import com.sales2all.android.ui.salesfilter.SalesFilterFragment;
 import com.sales2all.android.ui.saleslist.SalesListFragment;
@@ -87,6 +88,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            this.startActivity(new Intent(this, PreferenceActivity.class));
             return true;
         }
 

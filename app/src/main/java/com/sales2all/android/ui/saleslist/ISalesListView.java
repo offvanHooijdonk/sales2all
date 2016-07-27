@@ -6,5 +6,5 @@ import android.view.View;
  * Created by Yahor_Fralou on 4/13/2016 15:03.
  */
 public interface ISalesListView {
-    void startSaleView(int position, View transitionView);
+    void startSaleView(int position, Long saleId, View transitionView);
 }
