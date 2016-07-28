@@ -6,6 +6,7 @@
     <string name="transition_sale_main_photo">sale_main_photo</string>
     <string name="init_data">Init Data</string>
     <string name="percent_sign">%</string>
+    <string name="find_sales">Find sales</string>
 
     <array name="sales_names">
         <item>Awesome black hat</item>

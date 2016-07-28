@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
@@ -45,6 +46,8 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
 
     @Bind(R.id.listSales)
     RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private Context ctx;
 
@@ -86,7 +89,8 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
         }
         ButterKnife.bind(this, v);
 
-        //GridLayoutManager layoutManager = new GridLayoutManager(ctx, getGridSpanNumber());
+        swipeRefreshLayout.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3);
+
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getGridSpanNumber(), StaggeredGridLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(layoutManager);

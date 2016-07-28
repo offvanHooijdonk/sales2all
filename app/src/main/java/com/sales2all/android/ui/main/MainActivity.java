@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements IMainActivityView, IHasComponent<IMainActivityComponent>, FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends BaseActivity implements IMainActivityView, IHasComponent<IMainActivityComponent>, FragmentManager.OnBackStackChangedListener, NavigationView.OnNavigationItemSelectedListener {
     public static final String FRAG_TAG_SALES_LIST = "FRAG_TAG_SALES_LIST";
     public static final String FRAG_TAG_SALES_FILTER = "FRAG_TAG_SALES_FILTER";
 
@@ -45,6 +48,10 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     private IMainActivityComponent mainActivityComponent;
     private FragmentManager fragmentManager;
 
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @Bind(R.id.navigation)
+    NavigationView navigationView;
     @Bind(R.id.coordinator)
     CoordinatorLayout coordinator;
     @Bind(R.id.toolbar)
@@ -61,6 +68,10 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
@@ -90,6 +101,8 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         if (id == R.id.action_settings) {
             this.startActivity(new Intent(this, PreferenceActivity.class));
             return true;
+        } else if (id == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
         }
 
         return super.onOptionsItemSelected(item);
@@ -223,4 +236,8 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         }*/
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return false;
+    }
 }
