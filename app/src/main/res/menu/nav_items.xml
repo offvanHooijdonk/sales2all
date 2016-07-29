@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-    <item
-        android:id="@+id/sales_list"
-        android:title="@string/find_sales"
-        android:icon="@drawable/ic_search_white_24dp"/>
+        <item
+            android:id="@+id/mi_sales_list"
+            android:icon="@drawable/ic_search_white_24dp"
+            android:title="@string/find_sales"/>
+
+        <item
+            android:id="@+id/mi_reset"
+            android:icon="@drawable/ic_menu_white_24dp"
+            android:title="Item # 2"/>
     </group>
 </menu>

@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,12 +73,25 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
 
         fragmentManager = getFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
 
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, new SalesListFragment(), FRAG_TAG_SALES_LIST).commit();
-
+        navigationView.getMenu().performIdentifierAction(R.id.mi_sales_list, 0);
+        navigationView.setCheckedItem(R.id.mi_sales_list);
     }
 
     @Override
@@ -110,7 +124,11 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        if (drawerLayout.isDrawerOpen(navigationView)) {
+            drawerLayout.closeDrawers();
+        } else {
+            presenter.onBackPressed();
+        }
     }
 
     @OnClick(R.id.fab)
@@ -238,6 +256,21 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        return false;
+        Fragment fragment;
+        switch (item.getItemId()) {
+            case R.id.mi_sales_list: {
+                fragment = new SalesListFragment();
+            } break;
+            default: {
+                fragment = new SalesListFragment();
+            }
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, FRAG_TAG_SALES_LIST).commit();
+        drawerLayout.closeDrawers();
+
+        return true;
     }
+
+
 }
