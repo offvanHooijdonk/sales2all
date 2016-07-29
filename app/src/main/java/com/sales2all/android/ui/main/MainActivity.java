@@ -1,9 +1,12 @@
 package com.sales2all.android.ui.main;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
 import com.sales2all.android.R;
@@ -28,8 +30,7 @@ import com.sales2all.android.mvp.modules.MainActivityModule;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.ui.BaseActivity;
 import com.sales2all.android.ui.preferences.PreferenceActivity;
-import com.sales2all.android.ui.salesfilter.ISalesFilterView;
-import com.sales2all.android.ui.salesfilter.SalesFilterFragment;
+import com.sales2all.android.ui.salesfilter.SalesFilterActivity;
 import com.sales2all.android.ui.saleslist.SalesListFragment;
 import com.sales2all.android.ui.saleview.SaleViewActivity;
 
@@ -39,7 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements IMainActivityView, IHasComponent<IMainActivityComponent>, FragmentManager.OnBackStackChangedListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements IMainActivityView, IHasComponent<IMainActivityComponent>, NavigationView.OnNavigationItemSelectedListener {
     public static final String FRAG_TAG_SALES_LIST = "FRAG_TAG_SALES_LIST";
     public static final String FRAG_TAG_SALES_FILTER = "FRAG_TAG_SALES_FILTER";
 
@@ -61,6 +62,8 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     FloatingActionButton fab;
     @Bind(R.id.container_filter)
     FrameLayout containerFilter;
+    @Bind(R.id.reveal_placeholder)
+    View revealPlaceHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,6 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         actionBarDrawerToggle.syncState();
 
         fragmentManager = getFragmentManager();
-        fragmentManager.addOnBackStackChangedListener(this);
 
         navigationView.getMenu().performIdentifierAction(R.id.mi_sales_list, 0);
         navigationView.setCheckedItem(R.id.mi_sales_list);
@@ -127,13 +129,28 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
         if (drawerLayout.isDrawerOpen(navigationView)) {
             drawerLayout.closeDrawers();
         } else {
-            presenter.onBackPressed();
+            finish();
         }
     }
 
     @OnClick(R.id.fab)
     public void onFABClicked() {
-        presenter.onFilterCalled();
+        AnimationHelper.Circle.revealViewWithFAB(revealPlaceHolder, fab, 2200, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+
+                startActivity(new Intent(MainActivity.this, SalesFilterActivity.class));
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run() {
+                        revealPlaceHolder.setVisibility(View.INVISIBLE);
+                    }
+                }, 350);
+            }
+        });
+
+        //presenter.onFilterCalled();
     }
 
     @Override
@@ -151,48 +168,6 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     }
 
     @Override
-    public void popFragmentFromStack() {
-        Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
-        if (frFilter != null && frFilter.isVisible()) {
-            ((ISalesFilterView) frFilter).collapseFilter();
-        } else {
-            fragmentManager.popBackStack();
-        }
-    }
-
-    @Override
-    public void collapseFilterView() {
-        Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
-        if (frFilter != null && frFilter.isVisible()) {
-            ((ISalesFilterView) frFilter).collapseFilter();
-        }
-    }
-
-    @Override
-    public void onSaleItemSelected(final int position, final Long saleId, final View transitionView) {
-        Fragment frFilter = fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
-        if (frFilter != null && frFilter.isVisible()) {
-            ((ISalesFilterView) frFilter).collapseFilter();
-        } else {
-            AnimationHelper.Fade.fade(fab, false, new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    startSaleViewActivity(position, saleId, transitionView);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        }
-    }
-
     public void startSaleViewActivity(int position, Long saleId, final View transitionView) {
         Intent intent = new Intent(MainActivity.this, SaleViewActivity.class);
         intent.putExtra(SaleViewActivity.EXTRA_SALE_ID, saleId);
@@ -203,60 +178,9 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
     }
 
     @Override
-    public boolean isStackEmpty() {
-        return fragmentManager.getBackStackEntryCount() == 0;
-    }
-
-    @Override
-    public void exitApp() {
-        finish();
-    }
-
-    @Override
-    public void displayFilterView() {
-        //fab.hide();
-        SalesFilterFragment fr = new SalesFilterFragment();
-        fr.setViewToCircleOn(fab);
-        fragmentManager.beginTransaction().replace(R.id.container_filter, fr, FRAG_TAG_SALES_FILTER)
-                .addToBackStack(FRAG_TAG_SALES_FILTER).commit();
-
-        //revealView(fr.getView());
-    }
-
-    /*private boolean isFABToBeDisplayed() {
-        boolean result = true;
-
-        return result;
-    }*/
-
-    @Override
-    public void onBackStackChanged() {
-        /*if (isFABToBeDisplayed()) {
-            if (!fab.isShown()) {
-                fab.show();
-            }
-        } else {
-            if (fab.isShown()) {
-                //fab.hide();
-            }
-        }*/
-
-        /*Fragment frFilter =  fragmentManager.findFragmentByTag(FRAG_TAG_SALES_FILTER);
-        if (frFilter != null && frFilter.isVisible()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AnimationHelper.Circle.revealViewWithFAB(containerFilter, fab);
-                }
-            }, 50);
-        } else {
-            //containerFilter.setVisibility(View.INVISIBLE);
-        }*/
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Fragment fragment;
+
         switch (item.getItemId()) {
             case R.id.mi_sales_list: {
                 fragment = new SalesListFragment();

@@ -15,7 +15,7 @@ import android.view.animation.Animation;
  * Created by Yahor_Fralou on 4/14/2016 18:30.
  */
 public class AnimationHelper {
-    public static final int DELAY_CIRCULAR_IN = 250;
+    public static final int DELAY_CIRCULAR_IN = 350;
     public static final int DELAY_CIRCULAR_OUT = 250;
 
     public static final int DELAY_FADE_IN = 100;
@@ -26,11 +26,12 @@ public class AnimationHelper {
          * @param v      target view
          * @param viewCircleOn    FloatingActionButton to animate around
          */
-        public static void revealViewWithFAB(@NonNull View v, @NonNull View viewCircleOn, @Nullable AnimatorListenerAdapter listener) {
+        public static void revealViewWithFAB(@NonNull View v, @NonNull View viewCircleOn, @Nullable Integer radius, @Nullable AnimatorListenerAdapter listener) {
             int cx = getAnimCenterX((ViewGroup)v.getParent(), viewCircleOn);
             int cy = getAnimCenterY((ViewGroup)v.getParent(), viewCircleOn);
 
-            int finalRadius = getAnimRadius(v);
+            v.setVisibility(View.INVISIBLE);
+            int finalRadius = radius != null ? radius : getAnimRadius(v);
 
             Animator anim =
                     ViewAnimationUtils.createCircularReveal(v, cx, cy, viewCircleOn.getWidth()/2, finalRadius);
@@ -98,13 +99,12 @@ public class AnimationHelper {
             float start = animateIn ? 0.0f : 1.0f ;
             float end = animateIn ? 1.0f : 0.0f ;
             Animation anim = new AlphaAnimation(start, end);
-            anim.setDuration(DELAY_FADE_IN);
+            anim.setDuration(DELAY_FADE_IN + 250);
             anim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
 
                 }
-
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     if (animateIn) {
@@ -117,7 +117,6 @@ public class AnimationHelper {
                         listener.onAnimationEnd(animation);
                     }
                 }
-
                 @Override
                 public void onAnimationRepeat(Animation animation) {
 

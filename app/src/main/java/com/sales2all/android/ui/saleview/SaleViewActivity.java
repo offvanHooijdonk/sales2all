@@ -29,6 +29,9 @@ public class SaleViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sale_view);
         ctx = SaleViewActivity.this;
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ButterKnife.bind(this);
 
         Long saleId = getIntent().getExtras().getLong(EXTRA_SALE_ID);

@@ -1,8 +1,8 @@
 package com.sales2all.android.ui.saleslist;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,6 @@ import com.sales2all.android.mvp.components.IMainActivityComponent;
 import com.sales2all.android.presenter.main.IMainActivityPresenter;
 import com.sales2all.android.presenter.saleslist.ISaleListPresenter;
 import com.sales2all.android.ui.BaseFragment;
-import com.sales2all.android.ui.main.MainActivity;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Yahor_Fralou on 4/13/2016 15:03.
  */
-public class SalesListFragment extends BaseFragment implements ISalesListView, SalesListAdapter.OnSaleItemClickedListener {
+public class SalesListFragment extends BaseFragment implements ISalesListView, SalesListAdapter.OnSaleItemClickedListener, SwipeRefreshLayout.OnRefreshListener {
     private static final int SPAN_MIN_SIZE = 240;
 
     @Inject
@@ -90,6 +89,7 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
         ButterKnife.bind(this, v);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getGridSpanNumber(), StaggeredGridLayoutManager.VERTICAL);
 
@@ -104,12 +104,6 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    Activity a = SalesListFragment.this.getActivity();
-                    if (a instanceof MainActivity) {
-                        mainActivityPresenter.collapseFilter();
-                    }
-                }
             }
         });
 
@@ -168,5 +162,15 @@ public class SalesListFragment extends BaseFragment implements ISalesListView, S
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 400);
     }
 }

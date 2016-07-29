@@ -6,8 +6,6 @@ import android.view.View;
  * Created by Yahor_Fralou on 4/12/2016 16:22.
  */
 public interface IMainActivityPresenter {
-    void onBackPressed();
-    void collapseFilter();
+
     void onSaleItemSelected(int position, Long saleId, View transitionView);
-    void onFilterCalled();
 }

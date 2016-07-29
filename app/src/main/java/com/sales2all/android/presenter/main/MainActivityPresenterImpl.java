@@ -19,27 +19,7 @@ public class MainActivityPresenterImpl implements IMainActivityPresenter {
     }
 
     @Override
-    public void onBackPressed() {
-        if (view.isStackEmpty()) {
-            view.exitApp();
-        } else {
-            view.popFragmentFromStack();
-        }
-    }
-
-    @Override
-    public void collapseFilter() {
-        view.collapseFilterView();
-    }
-
-    @Override
     public void onSaleItemSelected(int position, Long saleId, View transitionView) {
-        view.onSaleItemSelected(position, saleId, transitionView);
+        view.startSaleViewActivity(position, saleId, transitionView);
     }
-
-    @Override
-    public void onFilterCalled() {
-        view.displayFilterView();
-    }
-
 }

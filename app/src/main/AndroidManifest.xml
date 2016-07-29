@@ -36,7 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.saleview.SaleViewActivity">
+        <activity android:name=".ui.saleview.SaleViewActivity" android:parentActivityName=".ui.main.MainActivity">
+        </activity>
+
+        <activity android:name=".ui.salesfilter.SalesFilterActivity" android:parentActivityName=".ui.main.MainActivity" android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
