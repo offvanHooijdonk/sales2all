@@ -135,7 +135,6 @@ public class AnimationHelper {
 
     public static class ActivityReveal {
         private static final int DURATION_REVEAL = 300;
-        private static final float DECELERATE_FACTOR = 2.0f;
 
         /**
          * Place in onResume() method
@@ -157,7 +156,7 @@ public class AnimationHelper {
                     1.0f, (float) actionBarHeight / ctx.getResources().getDisplayMetrics().heightPixels);
 
             anim.setDuration(DURATION_REVEAL);
-            anim.setInterpolator(/*new DecelerateInterpolator(DECELERATE_FACTOR)*/ new LinearOutSlowInInterpolator());
+            anim.setInterpolator(new LinearOutSlowInInterpolator());
             anim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
