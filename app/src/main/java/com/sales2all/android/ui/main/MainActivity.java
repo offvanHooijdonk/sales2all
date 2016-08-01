@@ -140,7 +140,9 @@ public class MainActivity extends BaseActivity implements IMainActivityView, IHa
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                startActivity(new Intent(MainActivity.this, SalesFilterActivity.class));
+                Intent intent = new Intent(MainActivity.this, SalesFilterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run() {

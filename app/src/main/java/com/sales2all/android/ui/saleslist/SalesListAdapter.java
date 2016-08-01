@@ -97,7 +97,7 @@ public class SalesListAdapter extends RecyclerView.Adapter<SalesListAdapter.View
                 vh.imagePhoto.setImageDrawable(dr);
                 vh.imagePhoto.setAspectRatio(((float) dr.getIntrinsicHeight()) / dr.getIntrinsicWidth());
 
-                AnimationHelper.Fade.fade(vh.imagePhoto, true, null);
+                AnimationHelper.Fade.fade(vh.imagePhoto, true, AnimationHelper.Fade.DURATION_FAST, null);
             }
 
             vh.progressImageLoad.setVisibility(View.GONE);
