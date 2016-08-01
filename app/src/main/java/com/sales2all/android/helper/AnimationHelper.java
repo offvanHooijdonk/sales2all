@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
@@ -13,17 +14,16 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 
 /**
  * Created by Yahor_Fralou on 4/14/2016 18:30.
  */
 public class AnimationHelper {
-    public static final int DELAY_CIRCULAR_IN = 250;
-    public static final int DELAY_CIRCULAR_OUT = 250;
 
     public static class Circle {
+        private static final int DURATION_IN = 200;
+        private static final int DURATION_OUT = 250;
         /**
          *
          * @param v      target view
@@ -38,7 +38,7 @@ public class AnimationHelper {
 
             Animator anim =
                     ViewAnimationUtils.createCircularReveal(v, cx, cy, viewCircleOn.getWidth()/2, finalRadius);
-            anim.setDuration(DELAY_CIRCULAR_IN);
+            anim.setDuration(DURATION_IN);
 
             if (listener != null) {
                 anim.addListener(listener);
@@ -64,7 +64,7 @@ public class AnimationHelper {
             int initialRadius = getAnimRadius(v);
 
             Animator anim = ViewAnimationUtils.createCircularReveal(v, cx, cy, initialRadius, viewCircleOn.getWidth()/2);
-            anim.setDuration(DELAY_CIRCULAR_OUT);
+            anim.setDuration(DURATION_OUT);
 
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -157,7 +157,7 @@ public class AnimationHelper {
                     1.0f, (float) actionBarHeight / ctx.getResources().getDisplayMetrics().heightPixels);
 
             anim.setDuration(DURATION_REVEAL);
-            anim.setInterpolator(new DecelerateInterpolator(DECELERATE_FACTOR));
+            anim.setInterpolator(/*new DecelerateInterpolator(DECELERATE_FACTOR)*/ new LinearOutSlowInInterpolator());
             anim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
