@@ -39,7 +39,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, String> {
         String urlString = HOST_URL + IMAGE_WIDTH + "/" + height + "/technics";
 
         FileDownloadService downloadService = ApiClient.getClient().create(FileDownloadService.class);
-        Call<ResponseBody> call = downloadService.downloadFile(urlString);
+        Call<ResponseBody> call = downloadService.downloadFile(1L, urlString);
         Response<ResponseBody> response;
         try {
             response = call.execute();

@@ -35,4 +35,13 @@
         <item>50|discount50</item>
         <item>70|discount70</item>
     </array>
+
+    <string name="prefServerKey" translatable="false">pref_server_key</string>
+    <string name="prefServerTitle">Choose working server</string>
+    <string name="prefServerSummary">Choose working server</string>
+    <string name="prefServerDefault">10.9.213.181:8086/sales2all-back-rest/rest/</string>
+
+    <array name="pref_servers">
+        <item>@string/prefServerDefault</item>
+    </array>
 </resources>

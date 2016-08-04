@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditTextPreference
-        android:key="prefKey"
-        android:title="Title for a preference"
-        android:summary="Description for a preference"/>
+    <ListPreference
+        android:key="@string/prefServerKey"
+        android:title="@string/prefServerTitle"
+        android:summary="@string/prefServerSummary"
+        android:entries="@array/pref_servers"
+        android:entryValues="@array/pref_servers"
+        android:defaultValue="@string/prefServerDefault"/>
+
 
 </PreferenceScreen>
