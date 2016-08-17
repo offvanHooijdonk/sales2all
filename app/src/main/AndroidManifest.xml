@@ -36,16 +36,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.saleview.SaleViewActivity" android:parentActivityName=".ui.main.MainActivity">
-        </activity>
-
-        <activity android:name=".ui.salesfilter.SalesFilterActivity" android:parentActivityName=".ui.main.MainActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".ui.saleview.SaleViewActivity"
+            android:parentActivityName=".ui.main.MainActivity">
         </activity>
 
         <activity
-            android:name=".ui.preferences.PreferenceActivity"
+            android:name=".ui.salesfilter.SalesFilterActivity"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name="com.sales2all.android.ui.preferences.PreferenceActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".ui.main.MainActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.PREFERENCE"/>
+            </intent-filter>
         </activity>
     </application>
 
